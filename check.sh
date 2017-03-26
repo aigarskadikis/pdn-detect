@@ -64,10 +64,10 @@ fi
 name=$(echo "paint.net")
 
 #where the latest installer are located
-download=$(echo "http://www.dotpdn.com/downloads/pdn.html")
+download=$(echo "https://www.dotpdn.com/downloads/pdn.html")
 
 #launch some test download
-wget -S --spider -o $tmp/output.log $download
+wget --no-check-certificate -S --spider -o $tmp/output.log $download
 
 #check if the whole page is even working
 grep -A99 "^Resolving" $tmp/output.log | grep "HTTP.*200 OK"
@@ -75,7 +75,7 @@ if [ $? -eq 0 ]; then
 echo
 
 #get the zip file installer direct link
-url=$(wget -qO- "$download" | sed "s/\d034/\n/g" | grep zip | head -1 | sed "s/\.*//" | sed "s/^/http:\/\/www.dotpdn.com/")
+url=$(wget --no-check-certificate -qO- "$download" | sed "s/\d034/\n/g" | grep zip | head -1 | sed "s/\.*//" | sed "s/^/https:\/\/www.dotpdn.com/")
 echo "$url" | grep "paint\.net.*install\.zip"
 if [ $? -eq 0 ]; then
 echo
@@ -90,7 +90,7 @@ echo new version detected!
 echo
 
 echo Downloading $filename
-wget $url -O $tmp/$filename -q
+wget --no-check-certificate $url -O $tmp/$filename -q
 echo
 
 echo creating md5 checksum of file..
